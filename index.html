@@ -819,7 +819,7 @@ async function load() {
                 traits: dynamicTraits  
             });
         }  
-		displayJsonOnPageWithOccurrences(witchVariations);
+		displayJsonOnPageWithRarity(witchVariations);
     } catch (error) {
         console.error('Error loading witch:', error);
     }
@@ -849,57 +849,93 @@ async function calculateTraitOccurrences(variationJson) {
     return traitOccurrences;
 }
 
-async function addTraitOccurrencesToJson(variationJson) {
-    const traitOccurrences = await calculateTraitOccurrences(variationJson);
+function calculateRarityScores(traitOccurrences, totalItems) {
+    const rarityScores = {};
 
+    for (const traitType in traitOccurrences) {
+        rarityScores[traitType] = {};
+        const traitValues = traitOccurrences[traitType];
+
+        // Calculate rarity score for each trait value based on the formula
+        for (const traitValue in traitValues) {
+            const occurrenceCount = traitValues[traitValue];
+            rarityScores[traitType][traitValue] = 1 / (occurrenceCount / totalItems);
+        }
+    }
+
+    return rarityScores;
+}
+
+async function addRarityScoresToJson(variationJson) {
+    const traitOccurrences = await calculateTraitOccurrences(variationJson);
+    const totalItems = variationJson.length;
+    const rarityScores = calculateRarityScores(traitOccurrences, totalItems);
 
     const updatedJson = variationJson.map(variation => {
+        let overallRarityScore = 0;
         const updatedTraits = {};
 
         for (const traitType in variation.traits) {
             const traitValue = variation.traits[traitType];
-            const occurrenceCount = traitOccurrences[traitType][traitValue] || 0;
+            const rarityScore = rarityScores[traitType][traitValue] || 0;
+            overallRarityScore += rarityScore;
 
             updatedTraits[traitType] = {
                 value: traitValue,
-                occurrence: occurrenceCount
+                rarityScore: rarityScore,  // Rounded to 4 decimals for clarity
+                occurrence: traitOccurrences[traitType][traitValue]
             };
         }
 
-        return { ...variation, traits: updatedTraits };
+        return { ...variation, traits: updatedTraits, overallRarityScore: overallRarityScore };
     });
 
     return updatedJson;
 }
 
-async function displayJsonOnPageWithOccurrences(variationJson) {
-    const updatedJson = await addTraitOccurrencesToJson(variationJson);
-    const containerDiv = document.getElementById('jsonDisplay');
-    
-    containerDiv.innerHTML = '';
-    updatedJson.forEach(witch => {
-        const { id, traits } = witch;
-        const witchDiv = document.createElement('div');
-        
+function rankWitchesByRarity(updatedJson) {
+    // Sort witches by their overall rarity score in descending order (higher score = rarer)
+    updatedJson.sort((a, b) => b.overallRarityScore - a.overallRarityScore);
 
-        let jsonString = `{\n  "id": ${id},\n  "traits": {\n`;
+    // Assign ranks (ties get the same rank, like Olympic ranking)
+    let currentRank = 1;
+    for (let i = 0; i < updatedJson.length; i++) {
+        if (i > 0 && updatedJson[i].overallRarityScore === updatedJson[i - 1].overallRarityScore) {
+            updatedJson[i].rank = updatedJson[i - 1].rank;  // Same rank as previous
+        } else {
+            updatedJson[i].rank = currentRank;
+        }
+        currentRank++;
+    }
+
+    return updatedJson;
+}
+
+async function displayJsonOnPageWithRarity(variationJson) {
+    const updatedJson = await addRarityScoresToJson(variationJson);
+    const rankedJson = rankWitchesByRarity(updatedJson);
+
+    const containerDiv = document.getElementById('jsonDisplay');
+    containerDiv.innerHTML = '';
+
+    rankedJson.forEach(witch => {
+        const { id, traits, overallRarityScore, rank } = witch;
+        const witchDiv = document.createElement('div');
+
+        let jsonString = `{\n  "id": ${id},\n  "rank": ${rank},\n  "overallRarityScore": ${overallRarityScore.toFixed(2)},\n  "traits": {\n`;
         
-    
         for (const traitType in traits) {
             const trait = traits[traitType];
-            jsonString += `    "${traitType}": { "value": "${trait.value}", "occurrence": ${trait.occurrence} },\n`;
+            jsonString += `    "${traitType}": { "value": "${trait.value}", "occurrence": ${trait.occurrence}, "rarityScore": ${trait.rarityScore.toFixed(2)} },\n`;
         }
-        
-        jsonString = jsonString.slice(0, -2);  // Remove last comma and newline
-        
 
+        jsonString = jsonString.slice(0, -2);  // Remove last comma and newline
         jsonString += `\n  }\n}`;
 
         witchDiv.innerHTML = `<pre>${jsonString}</pre>`;
         containerDiv.appendChild(witchDiv);
     });
 }
-
 
 
 document.addEventListener("DOMContentLoaded", function() {
