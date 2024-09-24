@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display Calculated Traits</title>
+    <title>Taproot Witches Traits</title>
 </head>
 <body>
-    <h1>Generated Traits</h1>
+    <h1>Taproot Witches Traits</h1>
 	<pre id="jsonDisplay"></pre>
 <script>
 const imageJson = {
@@ -813,52 +813,69 @@ async function load() {
         for (let witch = 1; witch <= 3333; witch++) {
             const selectedIndex = witch - 1;  
             let selectedVariation = variationJson[selectedIndex];  
+			const { Id, ...dynamicTraits } = selectedVariation;
             witchVariations.push({
-                postShuffleId: witch, 
-                traits: selectedVariation  
+                id: witch, 
+                traits: dynamicTraits  
             });
-        }
-        console.log(JSON.stringify(witchVariations, null, 2));  
-		displayJsonOnPage(witchVariations);
-
+        }  
+		displayJsonOnPageWithOccurrences(witchVariations);
     } catch (error) {
         console.error('Error loading witch:', error);
     }
 }
 
-function displayJsonOnPage(jsonData) {
-    const jsonString = JSON.stringify(jsonData, null, 2);
-    const jsonDisplayElement = document.getElementById('jsonDisplay');
-    jsonDisplayElement.textContent = jsonString;
+async function calculateTraitOccurrences(variationJson) {
+    const traitOccurrences = {};
+
+    variationJson.forEach(variation => {
+        const traits = variation.traits;
+
+        for (const traitType in traits) {
+            const traitValue = traits[traitType];
+
+            if (!traitOccurrences[traitType]) {
+                traitOccurrences[traitType] = {};
+            }
+
+            if (!traitOccurrences[traitType][traitValue]) {
+                traitOccurrences[traitType][traitValue] = 0;
+            }
+
+            traitOccurrences[traitType][traitValue] += 1;
+        }
+    });
+
+    return traitOccurrences;
 }
 
+async function addTraitOccurrencesToJson(variationJson) {
+    const traitOccurrences = await calculateTraitOccurrences(variationJson);
 
-function displaySingleImage(imageSrc, variation) {
-    document.body.style.margin = '0';
-    document.body.style.padding = '0';
-    document.body.style.overflow = 'hidden';
 
-    document.body.innerHTML = ''; 
+    const updatedJson = variationJson.map(variation => {
+        const updatedTraits = {};
 
-    const imgWrapper = document.createElement('div');
-    imgWrapper.style.display = 'flex';
-    imgWrapper.style.justifyContent = 'center';
-    imgWrapper.style.alignItems = 'center';
-    imgWrapper.style.width = '100vw';
-    imgWrapper.style.height = '100vh';
-    imgWrapper.style.overflow = 'hidden'; 
+        for (const traitType in variation.traits) {
+            const traitValue = variation.traits[traitType];
+            const occurrenceCount = traitOccurrences[traitType][traitValue] || 0;
 
-    const img = document.createElement('img');
-    img.src = imageSrc;
-    img.style.objectFit = 'contain';
-    img.style.maxWidth = '100vw';
-    img.style.maxHeight = '100vh';
-    img.style.width = '100%'; 
-    img.style.height = '100%';
+            updatedTraits[traitType] = {
+                value: traitValue,
+                occurrence: occurrenceCount
+            };
+        }
 
-    imgWrapper.appendChild(img);
+        return { ...variation, traits: updatedTraits };
+    });
 
-    document.body.appendChild(imgWrapper);
+    return updatedJson;
+}
+
+async function displayJsonOnPageWithOccurrences(variationJson) {
+    const updatedJson = await addTraitOccurrencesToJson(variationJson);
+    const containerDiv = document.getElementById('jsonDisplay');
+    containerDiv.innerHTML = `<pre>${JSON.stringify(updatedJson, null, 2)}</pre>`;
 }
 
 document.addEventListener("DOMContentLoaded", function() {
