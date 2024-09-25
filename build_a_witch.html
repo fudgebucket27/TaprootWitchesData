@@ -3,54 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Build a Taproot Witche</title>
+    <title>Build a Taproot Witch</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Build a Taproot Witch</h1>
-    
-    <div class="layer-select">
-        <label for="background">Background:</label>
-        <select id="background"></select>
+    <h1 class="mb-4">Build a Taproot Witch</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Form for selecting layers -->
+            <form id="layerForm">
+                <div class="form-group">
+                    <label for="background">Background:</label>
+                    <select id="background" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="robe">Robe:</label>
+                    <select id="robe" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="skin">Skin:</label>
+                    <select id="skin" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="face">Face:</label>
+                    <select id="face" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="hair">Hair:</label>
+                    <select id="hair" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="hat">Hat:</label>
+                    <select id="hat" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="wand">Wand:</label>
+                    <select id="wand" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="moon">Moon:</label>
+                    <select id="moon" class="form-control"></select>
+                </div>
+
+                <button type="button" id="generate-btn" class="btn btn-primary btn-block">Generate Image</button>
+            </form>
+        </div>
+
+        <div class="col-md-6 text-center">
+            <canvas id="imageCanvas" width="300" height="300"></canvas>
+        </div>
     </div>
-
-    <div class="layer-select">
-        <label for="robe">Robe:</label>
-        <select id="robe"></select>
-    </div>
-
-    <div class="layer-select">
-        <label for="skin">Skin:</label>
-        <select id="skin"></select>
-    </div>
-
-    <div class="layer-select">
-        <label for="face">Face:</label>
-        <select id="face"></select>
-    </div>
-
-    <div class="layer-select">
-        <label for="hair">Hair:</label>
-        <select id="hair"></select>
-    </div>
-
-    <div class="layer-select">
-        <label for="hat">Hat:</label>
-        <select id="hat"></select>
-    </div>
-
-    <div class="layer-select">
-        <label for="wand">Wand:</label>
-        <select id="wand"></select>
-    </div>
-
-    <div class="layer-select">
-        <label for="moon">Moon:</label>
-        <select id="moon"></select>
-    </div>
-
-    <button id="generate-btn">Generate Witch</button>
-
-    <canvas id="imageCanvas" width="300" height="300"></canvas>
 <script>
 const imageJson = {
 "Background": {
@@ -633,20 +643,17 @@ const layerKeys = ['Background', 'Robe', 'Skin', 'Face', 'Hair', 'Hat', 'Wand', 
             });
         }
 
-        // Call the populate function on page load
+
         populateSelectOptions();
 
-        // Event listener for generating the image
         document.getElementById('generate-btn').addEventListener('click', () => {
             const variation = {};
 
-            // Collect values from the select inputs
             layerKeys.forEach(layer => {
                 const selectedValue = document.getElementById(layer.toLowerCase()).value;
                 variation[layer] = selectedValue.includes('-') ? selectedValue.split('-')[1] : selectedValue;
             });
 
-            // Call the layerImages function to generate the layered image
             layerImages(variation).then(imageUrl => {
                 const canvas = document.getElementById('imageCanvas');
                 const ctx = canvas.getContext('2d');
