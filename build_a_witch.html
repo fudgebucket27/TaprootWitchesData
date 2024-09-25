@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build a Taproot Witche</title>
+</head>
+<body>
+    <h1>Build a Taproot Witch</h1>
+    
+    <div class="layer-select">
+        <label for="background">Background:</label>
+        <select id="background"></select>
+    </div>
+
+    <div class="layer-select">
+        <label for="robe">Robe:</label>
+        <select id="robe"></select>
+    </div>
+
+    <div class="layer-select">
+        <label for="skin">Skin:</label>
+        <select id="skin"></select>
+    </div>
+
+    <div class="layer-select">
+        <label for="face">Face:</label>
+        <select id="face"></select>
+    </div>
+
+    <div class="layer-select">
+        <label for="hair">Hair:</label>
+        <select id="hair"></select>
+    </div>
+
+    <div class="layer-select">
+        <label for="hat">Hat:</label>
+        <select id="hat"></select>
+    </div>
+
+    <div class="layer-select">
+        <label for="wand">Wand:</label>
+        <select id="wand"></select>
+    </div>
+
+    <div class="layer-select">
+        <label for="moon">Moon:</label>
+        <select id="moon"></select>
+    </div>
+
+    <button id="generate-btn">Generate Witch</button>
+
+    <canvas id="imageCanvas" width="300" height="300"></canvas>
+<script>
+const imageJson = {
+"Background": {
+"Blue": "d1f1d9b8c19f49991d03c425ac08518ddebbfacb2e9b641a8f0600e1e7581e7ai0",
+"Light Purple": "f0028752a561687e6f1577d49687284521b15d0a67dba25a48dc9ffcbb52532ei0",
+"Orange": "569ba1ddbc0219a8b5b633e57fa65b064637dfc489753c4b410eb127bae65461i0",
+"Purple": "ea20c30d6100947ed930bae514b186edc466d68658ff9df63db0ac81b5abca64i0",
+"Transparent": "d7c5ba70511b225b766d07378cb323dd2b3470a2f0da3e6ddb8b259a025f72bai0",
+"Blank": "a36c90ed2da6f69745fade9c06560a7bae4455e26cd92cceceba5a1b6a2e70adi0",
+"Purple Night": "9b9426b83b68c3f9fa9e781346d8db9674df2fc63f35f4906e0476e08952f399i0",
+"Spider Web": "32a11338efa81351f2509ef4d09f1ef91665ac67499999e53c9fcd39ba91f293i0",
+"Crystal": "67b38b16cb6f0774a828ddb769bd28e1a9be403071aaa2bc2b15af960b0555d9i0",
+"Diamond": "16c6f7a5c03e3611d5f36c18e33ca18395a77321f6a746cd4fedf163cd42a0c5i0",
+"Beige": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i2",
+"Woods": "387667939c411adc89df9b115ab8f302fc9e523c9b241c0557a507190952aff6i0",
+"Mempool Orange": "e0c0120c219853a9d139d38e689d2c46942cb6d8f8bca444af3e54b059e52974i0",
+"Black": "ba93d048c415276d6bee7607960c644a71ea004a229718ca60aa02db05290bd9i0",
+"Witchintosh PS1": "9371462bf2c483633106486f3b2c860c883de9c82ac5bc4e77ce8b41d34f2758i2",
+"Tulips": "0e344201835ebd700f1e02e3078422caf3b7a8b660eccf48d54bd1e35a6d038ai0",
+"Pink Liquid": "28a236c511e73b1f1cbf089d014e93ade51107f0d35988b32544ee11cba05310i0",
+"Witch-Paint": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi30",
+"Witch-Paint Starry Night": "9371462bf2c483633106486f3b2c860c883de9c82ac5bc4e77ce8b41d34f2758i4",
+"Lava": "82d318c3dbf01aee61060df46ae69f7a0c2f5d8db7d0b0d32126b8cc81289b62i0",
+"Dark Purple": "ea20c30d6100947ed930bae514b186edc466d68658ff9df63db0ac81b5abca64i0",
+"Matrix Orange": "8dea24bbc81e592cc988e7215dae112e33eb0787dea9671f9fc2fa3c8efb852ei0",
+"Mempool Gradient": "992e72081fe0410e9bb8c72fa566c41efeee361f1bcc6ebdac45e34100c2c485i0",
+"Guacamole": "5e8bb3950566fe27ae71ba8dc8f453981b1803f43b7cb79562d96cdf1a0f1b6ci0",
+"Pastel Gradient 7": "58f4b72ead0f7aaa8a18040ef5ac780040c6b6686dd196de46a5bfee1480960ai0",
+"Trippy": "737401ae01fdaf1a7c9b4ccf1093af5f6aae687aa378eaa9e4a01e1ce45bdeeci0",
+"Matrix-Purple": "bc01250e7d3aa1f2baa0973e157fb816b9d6e8c4f5ad5b7eb4d74109a5d2ae53i0",
+"GB Mempool Inverted": "7d91efc2b42f7bcbfd3b1ea4bb7c1fbd3c5a694e8ef4830df50fc9707229a296i0",
+"GB Land": "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i8",
+"Witch-A-Sketch": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi29",
+"Pastel Gradient 5": "ce04162e87b24a4842e2bb4f3db18e00099971dea79182b0848ef93733f46b09i0",
+"Moss Wall": "9371462bf2c483633106486f3b2c860c883de9c82ac5bc4e77ce8b41d34f2758i3",
+"Mempool Purple": "6811a397a12be1db76a775401448f6393d21708e4dff043ef5afd1fee7388786i0",
+"Holographic Pastel": "0ce1c5c216fb2a76542315c0e79c5efab58ca4e5e9ffebd29b303f60430715d6i0",
+"Amethyst": "42fef3e6387917ba4e0e8c26aced1791ce09d36822949890b8ce8e863336028fi0",
+"Fiat Fire": "cab5d0b5cc0f0a6543bcf4decbe66e4ad9a97a5d8dd8a217bcb93cc479f4fc02i0",
+"Pastel Gradient 4": "846ce6c76204fca831899cda624304cb7811e24bdb2cacafe10d2e665d02bfd8i0",
+"Purple Hole": "3beaeadc5a5855ad41e7e313d3e5ce74e07fafd6644430d4b46703beab1a7c53i0",
+"GB Bitris": "4e4aeebf9c93ce2603ef8435a865eb2ff596998a92fa26d0da47c9068efc2df8i3",
+"Matrix Green": "27ac89d212f75a1e61c3e910d908206790097b72302eab9ced7690102950f3c7i0",
+"Chalk": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i16",
+"Holographic": "37c2407efabc28089f061d313e284525ec337b7b9d8fca2f85fc921dbe2d1549i0",
+"MacnCheese": "6210f1c051b50ca47bed29415288ecfd5b6e076adafef279cae360ff995e374bi0",
+"Mempool Party Dark Gradient": "b67ee37d10a7671447b1191b305b41ac66bc5cf939fcdbab88d2106418ce7b77i0",
+"Kale": "04d53873c1f62d2b9d020d789b0d4f9d1ff27ba195ea4b42d9d4e53912746f33i0",
+"Ramen": "034ef25e1482e506991c58b128254629b11417a5598c628853fef589fcdb77bfi0",
+"Turquois Orange Gradient": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i20",
+"Pastel Gradient 3": "efd986861a373229caf6a08358ec865025aea309cb8f5b38d71ce0ef01eeecd2i0",
+"Grass": "0497770016be1fd7418d1a8008072eab407876193d3d1ff62d3202716ad22171i0",
+"GB Mempool": "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i16",
+"Mempool Light Purple": "fc74fbd75541d660c7764d69c277f1d1ca6094b219e8a334fafeb0c8650dcc56i0",
+"Pastel Gradient 1": "d6c7cd00b69b5fa83b80f39d48643bdfe7f5238af19ab272e1389ad5858c7d00i0",
+"Pastel Gradient 2": "f2fba9980e31dc5ae062231993be590a80b01088406e980d80ffb5d9334a4c73i0",
+"Pastel Gradient 6": "2c80cb99e5df6b4a2c5947752590ad4c996c21ed18e9266d7dd796f885730a0ci0",
+"Pizza": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei13",
+"Windows XP": "40306f4b96d8f6011fe2f84f3748f874a12dbc1e5e1a911453a2182b565f24c2i0",
+"Cloudy Sky Dusk": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i2",
+"Cloudy Sky": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i3",
+"Hills": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i3",
+"Purple Gradient": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i8",
+"Constellation": "8d4a383583f711e4923ea60e4d0519aec6aa284ed271640d8b81d6108acf97fai0",
+"Cosmos": "8d4a383583f711e4923ea60e4d0519aec6aa284ed271640d8b81d6108acf97fai1",
+"Dark Night Sky": "8d4a383583f711e4923ea60e4d0519aec6aa284ed271640d8b81d6108acf97fai2",
+"Desert": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i26",
+"Hills With Clouds": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i35",
+"Hills Without Clouds": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i36",
+"Red Hearts": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i58",
+"Black Purple Gradient":  "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi1",
+"Blue Cyan Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi3",
+"Blue Green Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi4",
+"Blue Purple Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi6",
+"Constellation Light Blue": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi7",
+"Constellation Purple": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi8",
+"Cyan Magenta": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi9",
+"Dark Blue Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi10",
+"Dark Blue": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi11",
+"Light Purple": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi15",
+"Purple Cyan Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi19",
+"Purple Green Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi20",
+"Purple Night": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi22",
+"Purple Orange Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi23",
+"Purple Pink Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi24",
+"Purple Yellow Gradient":  "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi25",
+"Rouge Yellow Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi35",
+"Rouge": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi36",
+"Sky_Gradient": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi37",
+"Sky_Gradient2": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi38",
+"Turquoise": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi40",
+"Constellation Orange": "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i0"
+},
+"Robe": {
+"Blue": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi1",
+"Raw Steak": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i16",
+"GB": "9402a6c9f3d1a4508d00a71ed24bf41a4432a35de323abf42ea3eca6295da705i0",
+"GB Bitris": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i17",
+"Binbag": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi0",
+"Hearts": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi2",
+"LV Brown": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi9",
+"Maccy D": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi10",
+"Tiger Stripes": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi38",
+"Leopard": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi5",
+"Leopard Purple": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi6",
+"Orange Stars": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi27",
+"Zebra Neon": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi22",
+"Snake": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi34",
+"Orange BTC": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi24",
+"Orange Cig": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi26",
+"Ord Stripe": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi29",
+"Nacho": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi11",
+"Orange Chain": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi25",
+"Lizard Neon": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi8",
+"Snow Leopard": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi36",
+"Orange": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi28",
+"Spots": "0124b9a69f63dacd2220e37cfbf50d071ec1ee2346346dff6b34ee815ebdd3edi37",
+"Black": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi7",
+"White": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi28",
+"Green": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei5",
+"Purple": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi18",
+"Red": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i59",
+"Yellow": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi33",
+"Dark Blue": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi8",
+"GB Outline": "b425cc126bb737d144ea6f3aa38f540a6d132efb2b0de8f8136bb0c3bfbfb695i0",
+"Neon Blue": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i15",
+"Neon Green": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i16",
+"Neon Orange": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i17",
+"Neon Purple": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i18",
+"Neon Red": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i19",
+"Neon White": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i20",
+"Neon Yellow": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i21",
+"Neon Blue Outline": "aff6a546f2d11a60e1ec14dfaa0bf4537c5e58a68942c5fa8feb988096e4208ai0",
+"Ghost": "c6978a401be1ee273b6d6a1e65827ab862e37a148b6b7de28c83120b6f8a8721i0",
+"Scribble Blue": "8d4a383583f711e4923ea60e4d0519aec6aa284ed271640d8b81d6108acf97fai5",
+"Astronaut": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i2",
+"Business Woman": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i5",
+"Dark Green Robe": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i21",
+"Lab Coat": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i38",
+"Maccers Polo": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i41",
+"Monk": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i42",
+"Ord Stripes": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i53",
+"Beige": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i60",
+"Tan": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i72",
+"Zebra": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i82",
+"Cult Black": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei0",
+"Cult Hood Black": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei0",
+"Cult Blue": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei1",
+"Cult Brown": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei2",
+"Cult Hood Brown": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei2",
+"Cult Dark Blue": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei3",
+"Cult Dark Purple": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei4",
+"Cult Green": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei5",
+"Cult Orange": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei6",
+"Cult Pink": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei7",
+"Cult Purple": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei8",
+"Cult Red": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei9",
+"Dark Purple": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei10",
+"Lime Green Robe": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i31",
+"Purple Neon Outline": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi21",
+"Blue Neon Outline": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi5",
+"QC Scribble Robe": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi27",
+"QCW_2": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi28",
+"QCW_4": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi30",
+"QCW_5": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi31",
+},
+"Skin": {
+"Caucasian": "f9efedca526e2258f3280d28d05897a7d4504c941494633bf4a73e0353ca6165i0",
+"GB": "68d8e65e355428eb9bcfca69db9bd2ecf02efc511f30fecd462a692c9f3f0befi0",
+"Green": "7ad5bf3eb516449aef94cafb584f575c5f23435c2f812e9d7bd70d9a4688f626i0",
+"Brown": "6c77ad1ed771bad0eff709c38ff6ce5dd4b9775f0ca50c1f3884d84fe29a227ci0",
+"Pastel Turquoise": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i66",
+"White": "e0a4ee866883de38ff77015346570d07133d8cc20a118baad749645e513f4560i0",
+"Pup": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi14",
+"Gray": "4e4aeebf9c93ce2603ef8435a865eb2ff596998a92fa26d0da47c9068efc2df8i13"
+},
+"Face": {
+"Happy": "28a0478376d49ff47ad250e9901da86b23fa9cddb82f27184114940abaa2e9c8i0",
+"Angry": "c2f2f1aa796f74b1cb8a38922404f201f4228f580c4640ea4a7aae3bec7cefbci0",
+"Eye Lashes": "bca638e0ec8ab5dc2dbc8e755feaa6c5470f6acfa029de27ac7c073cc03d9be9i0",
+"Closed": "a982b0c28acc5b3d19b11a075892867f8d491f1d8d1c6fff4d7fc27021c9fa25i0",
+"Clown": "f78bce675ae59e572227ac28ba0ad36306ddaf3809756abfc617434c62192e89i0",
+"GB Happy": "af9aec61c4b98adc922cf96fb5ec6e8ca06addbeb3e41efcd7308431ac63deeai0",
+"GB Zalgo Face": "447e127f5d2a3f185f804e2a077356fbb45d2d342bbc78310bec72f4b2e16f7bi0",
+"Transparent Face": "53974434c0cbf2a1217fa5242ac4a3f9e9455dcfe1584b99f9016c841e7a8aeei0",
+"Vampire": "73ec6421bf8f792269dc34fd0847d49357e008d3cdf7fb49c1773fd999229a74i0",
+"Glowing Eyes White": "cb024f516da8ed633e4cd80d3c22a85dc52abdba5568c6507b1476c03a4b384ci0",
+"Ice Cream": "61a512261c8a80557b8d7f5a0cf54c5b3e34d3bd3629c15a1a3ad37d1a0a1ad9i0",
+"GB Sunnies": "43715fa95a81cee072d6c5cef96a01e7d8c5195108b0317c0d85d05efc06a6e0i0",
+"White Sunnies": "0aa1bec4e1e500ad16f235250a80070473bfc0980145dc563473e7bf4c994543i0",
+"Matrix Sunnies": "b919db20c0f51eeaab379d73f23d3837a451cfbafa7e283667cb324f7146e062i0",
+"GB Bitris Sunnies": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i22",
+"Full Spectrum Sunnies": "5b1599016644d33a9dfc1633f7d3ddc1396efd39059a516b762f55f2093477e3i0",
+"Eye Patch": "ac071aac0089d300fb9c5be94c892772911b8c73d548bb949df597c22dc9ced2i0",
+"GB Angry": "d0e5f173155f4cf2180d8b103d99f0333cd1b1e8747ecc3fab4985a6982e4a54i0",
+"Monocle": "e5031a2730bcff3b175a37f0926502984e2137685a072ab2751bf97b40781acfi0",
+"GB Eye Lashes": "0eb0a77315c72c6f3989ebbc3ed470961f3df818c3b7482f8cff3c97e742ca19i0",
+"Tear": "5ebba79ae9f1b87f84e8d9295786c3e5a46f0edf70de5efad68d08f2d509aad7i0",
+"GB Matrix Sunnies": "8560e4e3bb455e817b85f66cd6e8285acc236b9b328f0dacad88e297eb781be1i0",
+"Lightning Eyes": "e0676559d254b28cc11a580f120896c8bb723a4d871dd98d45b30715aeb6e7c5i0",
+"Pup": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi13",
+"Alien": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi0",
+"Neon Blue": "ec4fc5c8baf0cd7b4e95612a757b6797d3bce1ea4e6e3532f6216497bb8c3938i0",
+"Neon Green": "abb038934dcc243a1510a9a7da20080929f4b22595181fb3747d3d3713491e27i0",
+"Neon Orange": "de9a3d568ffb3e1e371cc5423d883a83a1054662c81a9b8d01ac4b6475bdd30ai0",
+"Neon Purple": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i10",
+"Neon Red": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i12",
+"Uwu": "73ff78dfb26fcebab83e7d3638a996c2f42e946c6a1ddda069b1534e3fa08bc0i8",
+"3D Glasses": "9371462bf2c483633106486f3b2c860c883de9c82ac5bc4e77ce8b41d34f2758i0",
+"Bene Face": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i3",
+"Cross Eye": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i10",
+"Goofy Glasses": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i29",
+"Lipstick": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i39",
+"Night Vision": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i49",
+"Ord Face": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i51",
+"Round Shades": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i61",
+"Vision": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i73",
+"Black Sunnies": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi2",
+"Heart Eyes": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi14",
+"Zalgo Face": "9371462bf2c483633106486f3b2c860c883de9c82ac5bc4e77ce8b41d34f2758i6"
+},
+"Hair": {
+"None": "None",
+"Black": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i3",
+"Ghost": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i0",
+"Yellow": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i14",
+"Gray": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i10",
+"Pink": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i32",
+"Red": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i12",
+"GB": "bf71f7d1dec689e4cadd7bb3771797b06fe3ac986ed6972804b899467b3134fdi0",
+"White": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i13",
+"Neon White": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i2",
+"Neon Yellow": "20cbc6a9e17b4395508cda8e8c90fa1866f17a5457ae0940e8c13060ff9eb430i22",
+"Black With White Stripes":  "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i4",
+"Coffee House Green":  "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i9",
+"Dark Purple Stripes": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i24",
+"Dark Purple": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i25",
+"Fire": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i27",
+"Frog": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i28", 
+"Green": "4e4aeebf9c93ce2603ef8435a865eb2ff596998a92fa26d0da47c9068efc2df8i4",
+"Scruffy Black": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i62",
+"Scruffy Green": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i63",
+"Siren": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i65",
+"Slime": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i67",
+"Water": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i74",
+"Wavey Black and White": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i75",
+"Wavey Blue": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i76",
+"Wavey Green": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i77",
+"Wavey Orange": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i78",
+"Wavey Purple": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i79",
+"Neon Blue - Yellow Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i0",
+"Neon Blue": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i1",
+"Neon Ghost - Yellow Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i2",
+"Neon Ghost": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i3",
+"Neon Green": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i4",
+"Neon Green - White Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i5",
+"Neon Orange - White Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i6",
+"Neon Orange": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i7",
+"Neon Purple - Yellow Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i8",
+"Neon Purple": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i9"
+},
+"Hat": {
+"Blue - Yellow Hatband": "913e579912c82aa5c9ef02df3e9b03004b797303cc8881e1cb8554e3980e0ad4i0",
+"Raw Steak": "50b1580471f307666dd0a8b47fe367fe7195da56b638f828aa6e5a93c00ce134i0",
+"Tinfoil": "912ce25829f1d00292f2ac050960e20eeaff0e8c148ddefe3c533943fa1cbad3i0",
+"Maccy D": "4c12c8b335f3c7f95ccd2d341f683054559259dc7dd533457e282819960d21bai0",
+"Paper Hat": "0ea38accf94f5a9de1661f9420bb7a59382a8e2243451db6c72ebee2c2c3ce02i0",
+"Sorting Hat": "b86889c26c25832b76032627e2e289a6f8e1886ebdca0576e027c2a06cb7d1eci0",
+"Wizard Hat": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i80",
+"Binbag": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i0",
+"GB": "6dc2b32556d5a4f139bcb82afafc92cf44fdafa7af48bb2978c488e3b614615ei0",
+"Hearts": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i11",
+"Orange - Blue Hatband": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i50",
+"Spots": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i29",
+"Leopard": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i13",
+"LV Brown": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i16",
+"Snake": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i26",
+"Nacho": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i18",
+"Leopard Purple": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i14",
+"Bent Blue Stars": "fb49ee3e543d7840d61f54ad5f0c06f54f65db2f2a0faca51cf105e8e8d63455i0",
+"Zebra Neon": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i22",
+"Tiger": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i30",
+"Snow Leopard": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i28",
+"Lizard Neon": "60f8a323022319196491f6103668bec8a9559bb7d572cb62ac68d9452903dc39i15",
+"Ice Crown": "ea67a0cf5d06d4fa0c8a90526f61dcb4e9f7fe0fa4f08a0e3729458cb525de51i0",
+"Black - White Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi1",
+"Black - Yellow Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi6",
+"Black - Blue Hatband": "1117128936e7eaa874e6c1f2ae0191851c01e8e432f66ddea4a6190a93eb5701i0",
+"Black - Red Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi4",
+"Black - Light Purple Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi2",
+"Black - Green Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi1",
+"Black - Orange Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi3",
+"Orange - Light Purple Hatband": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei6",
+"Orange - White Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi10",
+"Orange - Yellow Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi11",
+"White - Light Purple Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi24",
+"White - Green Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi23",
+"White - Red Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi26",
+"White - Yellow Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi27",
+"White - Orange Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi25",
+"White - Blue Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi22",
+"Yellow - Green Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi31",
+"Yellow - White Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi32",
+"Yellow - Blue Hatband": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei7",
+"Red - White Hatband": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i56",
+"Purple - Green Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi15",
+"Purple - White Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi16",
+"Purple - Yellow Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi17",
+"Green - White Hatband": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei3",
+"Green - Blue Hatband": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei1",
+"Green - Yellow Hatband": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei4",
+"Green - Light Purple Hatband": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei2",
+"Raw Steak - Yellow Hatband": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi19",
+"GB Bent": "f97deebe63a28698f20c7fa19152507e2958bd5b8efcb56c249473406b7f206bi0",
+"Ghost": "281316cb8575c4c02811c15fa50ca975c5be73f151245802f071434e54ae7634i0",
+"Yellow - Purple Hatband": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei9",
+"Yellow - Orange Hatband": "28426a65718bf33dcee19d3f1e925786b9afc9c5bdb0ee8fd7aa5090d9df2c8ei8",
+"Black - White Stars": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i0",
+"Blue - White Stars": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i1",
+"Dark Blue - Yellow Stars": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i4",
+"GB Stars": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i6",
+"Orange - White Stars": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i10",
+"Purple - White Stars": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i11",
+"Scribble Blue": "8d4a383583f711e4923ea60e4d0519aec6aa284ed271640d8b81d6108acf97fai4",
+"Zebra Hat": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i81",
+"Red - Yellow Hatband": "9371462bf2c483633106486f3b2c860c883de9c82ac5bc4e77ce8b41d34f2758i5",
+"Cult Hood Black": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i11",
+"Cult Hood Blue": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i12",
+"Cult Hood Brown": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i13",
+"Cult Dark Blue": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i14",
+"Cult Hood Dark Blue": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i14",
+"Cult Hood Dark Purple": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i15",
+"Cult Hood Green": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i16",
+"Cult Hood Orange": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i17",
+"Cult Orange": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i17",
+"Cult Hood Pink": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i18",
+"Cult Hood Purple": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i19",
+"Cult Purple": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i19",
+"Cult Hood Red": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i20",
+"Cleopatra": "9371462bf2c483633106486f3b2c860c883de9c82ac5bc4e77ce8b41d34f2758i1",
+"Dark Purple - Green Hatband": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i22",
+"Dark Purple - Yellow Hatband": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i23",
+"Frog": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi12",
+"Beige": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i33",
+"Hut Hat": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i37",
+"Ord Stripes": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i52",
+"Party Hat": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i54",
+"Moonbucks Black": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i47",
+"Moonbucks": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i48",
+"Siren Crown": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i64",
+"Orange Mushroom Hat": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi18",
+"QC Scribble Hat": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi26",
+"QCW_2": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi29",
+"QCW_5": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi32",
+"QCW_4": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi33",
+"Red Mushroom Hat": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi34",
+},
+"Wand": {
+"Standard Issue": "890712e61bc4c74134cba6917c335403c0b0d65bb9f66b6806bfab543ddd81dei0",
+"Star Wand": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi39",
+"GB": "fc86e8c9add349b5849358c4619f67cb15fee7f83ea64c8a8549a386fe07d568i0",
+"Ghost Wand": "b5bfc844e2db22a9f6f059ab181e4771b637edf78383fdb0f49850b5f41147a2i0",
+"Chalk Wand": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i23",
+"Neon Blue": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi0",
+"Neon Green": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi1",
+"Neon Orange": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi2",
+"Neon Red": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi3",
+"Neon White": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi4",
+"Neon Yellow": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi5",
+"Neon Purple": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i10",
+"Feather": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i5",
+"French Fry Wand": "72c5e4ad2b54dd9b48d98fffea59348bc93ba6e4b7f4105019a580fc784e9baei11",
+"Magicians Wand": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi16",
+"Moon Staff": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i45",
+"Moon Wand": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi17"
+},
+"Overlay": {
+"Witch-A-Sketch": "0e26dd6da75ffbc51228d8c19f7d45e5c3099de51b7456c92cd7310d9d585c51i0",
+"Witch-Paint": "d46b1cffb9e3d035a384967b4aa773121fe6688569d765dd6adc09fe111f340di0",
+"Witchintosh PS1": "91eff38b9bc7f4eaf1eb39dd8cf47d414d29498f944f8fd4aeeb44e5ceafa9e4i0",
+"Glowing Eyes White": "cb024f516da8ed633e4cd80d3c22a85dc52abdba5568c6507b1476c03a4b384ci0",
+"Laser Eyes": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i18",
+"Pup-Ears": "8698354f90e94cdb1d7e02dce2ab73f5ddec30e9ee6a97381401ffc2aa0523afi12",
+"Neon Green Hatband": "bd5e90975e26b39bb8e7b80cac1d6fa44666d9cb7de5527c5b3701bcccd94000i0",
+"Neon Blue Hatband": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i3",
+"Neon Orange Hatband": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i4",
+"Neon Purple Hatband": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i5",
+"Neon Red Hatband": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i6",
+"Neon White Hatband": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i7",
+"Neon Yellow Hatband": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i8",
+"Hat Stars Glowing": "8d4a383583f711e4923ea60e4d0519aec6aa284ed271640d8b81d6108acf97fai3",
+"Maccers Glowing M": "6cf996d6bf3552b9027cb959076419329f918952bae4db0fa1eb2ebbe7bf89e0i9",
+"Star Wand Glow": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i19"
+},
+"Neon": {
+"Blue - Yellow Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i0",
+"Blue": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i1",
+"Ghost - Yellow Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i2",
+"Ghost": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i3",
+"Green": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i4",
+"Green - White Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i5",
+"Orange White Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i6",
+"Orange": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i7",
+"Purple Yellow Hair": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i8",
+"Purple": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i9"
+},
+"Neon Elements": {
+"Neon Blue": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi0",
+"Neon Green": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi1",
+"Neon Orange": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi2",
+"Neon Red": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi3",
+"Neon White": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi4",
+"Neon Yellow": "2d95a7a95199159363c392d8997c652fae841c89e86ae70f49396dbfce3f0a4bi5",
+"Neon Purple": "266b655221c25e49c1d2a0f3aba89da86da9097bd0e3a315a00705bff84bfe78i10"
+},
+"Special": {
+"Pizza Apron": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i55",
+"Maccers Apron": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i40",
+"Coffee Apron": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i32",
+"Cigarette Holder": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i6",
+"Spice Bag": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i70",
+"Antenna Hatband": "4e4aeebf9c93ce2603ef8435a865eb2ff596998a92fa26d0da47c9068efc2df8i0",
+"Antenna": "4e4aeebf9c93ce2603ef8435a865eb2ff596998a92fa26d0da47c9068efc2df8i1",
+"Lightning": "a35c5f827110f3a8ea84fd7e829a9adcafe9a54f0f82c16ab114fc80c28cf432i0",
+"Cracked Glass": "b4b8bd21ea0fee6d84d15dd2eb6aa31b4796adc040fe1294803e332b684e2844i0",
+"Glow Strong": "f364a9eda55347b957dbc090dd8bb3f1dc7c0872bb1b9051c5a0efbce2f36ecbi13",
+"Point Glow": "af8b185fc692891baaed051768b7acc2bc25f214567721effadb69fb52707f18i0",
+"Bent Glow": "4e4aeebf9c93ce2603ef8435a865eb2ff596998a92fa26d0da47c9068efc2df8i2",
+"Laser Eyes": "1589adb289d58992133457967ab46a647b763a2c5e97d753ecab568357218da4i18",
+"Sparkle Hat Overlay": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i68",
+"Sparkle Robe Overlay": "175f143aa5f0a1085c6016f07579d3f57e16e59a6f2cf13ca60ca007ba63e499i69",
+}
+};
+
+const moonJson = {
+"Normal": {
+"New Moon": "",
+"Waxing Crescent": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i33",
+"First Quarter": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i34",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i35",    
+"Full Moon":  "",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i36",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i37",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i38"
+},
+"Neon": {
+"New Moon": "",
+"Waxing Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i40",
+"First Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i41",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i42",
+"Full Moon":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i43",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i44",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i45",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i46",
+},
+"Paint": {
+"New Moon": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i39",
+"Waxing Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i40",
+"First Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i41",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i42",
+"Full Moon":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i43",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i44",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i45",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i46",
+},
+"Bolo": {
+"New Moon": "",
+"Waxing Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i1",
+"First Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i2",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i3",
+"Full Moon":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i4",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i5",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i6",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i7"
+},
+"Chalk": {
+"New Moon": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i8",
+"Waxing Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i0",
+"First Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i10",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i11",
+"Full Moon":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i12",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i13",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i14",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i15"
+},
+"Eyes": {
+"New Moon": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i17",
+"Waxing Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i18",
+"First Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i19",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i20",
+"Full Moon":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i21",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i22",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i23",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i24"
+},
+"Moonbucks": {
+"New Moon": "",
+"Waxing Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i25",
+"First Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i26",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i27",
+"Full Moon":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i28",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i29",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i30",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i31"
+},
+"Pepperoni": {
+"New Moon": "",
+"Waxing Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i47",
+"First Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i48",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i49",
+"Full Moon":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i50",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i51",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i52",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i53"
+},
+"Witchintosh": {
+"New Moon": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i54",
+"Waxing Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i55",
+"First Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i56",
+"Waxing Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i57",
+"Full Moon":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i58",
+"Waning Gibbous": "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i59",
+"Second Quarter":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i60",
+"Waning Crescent":  "79f70b3ee0320b0b2deef9a671735873d4cea13d25c109850932e015a9966945i61"
+},
+"GB Land": {
+"New Moon": "",
+"Waxing Crescent":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i1",
+"First Quarter":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i2",
+"Waxing Gibbous": "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i3",
+"Full Moon":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i4",
+"Waning Gibbous": "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i5",
+"Second Quarter":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i6",
+"Waning Crescent":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i7"
+},
+"GB Mempool": {
+"New Moon": "",
+"Waxing Crescent":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i9",
+"First Quarter":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i10",
+"Waxing Gibbous": "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i11",
+"Full Moon":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i12",
+"Waning Gibbous": "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i13",
+"Second Quarter":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i14",
+"Waning Crescent":  "2042bfffb4af21a674eacd30e8cfce719e05da5f5072a2615b7dff44a6178f50i15"
+},
+"Sketch": {
+"New Moon": "c4af62086bec03dd4493f5320d3a04b61307a2471072115be4cba1e0abe451d8i0",
+"Waxing Crescent":  "c4af62086bec03dd4493f5320d3a04b61307a2471072115be4cba1e0abe451d8i1",
+"First Quarter":  "c4af62086bec03dd4493f5320d3a04b61307a2471072115be4cba1e0abe451d8i2",
+"Waxing Gibbous": "c4af62086bec03dd4493f5320d3a04b61307a2471072115be4cba1e0abe451d8i3",
+"Full Moon":  "c4af62086bec03dd4493f5320d3a04b61307a2471072115be4cba1e0abe451d8i4",
+"Waning Gibbous": "c4af62086bec03dd4493f5320d3a04b61307a2471072115be4cba1e0abe451d8i5",
+"Second Quarter":  "c4af62086bec03dd4493f5320d3a04b61307a2471072115be4cba1e0abe451d8i6",
+"Waning Crescent":  "c4af62086bec03dd4493f5320d3a04b61307a2471072115be4cba1e0abe451d8i7"
+}
+};
+
+const layerKeys = ['Background', 'Robe', 'Skin', 'Face', 'Hair', 'Hat', 'Wand', 'Moon'];
+
+      // Dynamically populate the select options
+      function populateSelectOptions() {
+            layerKeys.forEach(layer => {
+                const select = document.getElementById(layer.toLowerCase());
+                let options = '';
+
+                if (layer === 'Moon') {
+                    // Special case for moonJson
+                    Object.keys(moonJson).forEach(moonType => {
+                        Object.keys(moonJson[moonType]).forEach(moonPhase => {
+                            options += `<option value="${moonType}-${moonPhase}">${moonType} - ${moonPhase}</option>`;
+                        });
+                    });
+                } else if (imageJson[layer]) {
+                    Object.keys(imageJson[layer]).forEach(trait => {
+                        options += `<option value="${trait}">${trait}</option>`;
+                    });
+                }
+
+                select.innerHTML = options;
+            });
+        }
+
+        // Call the populate function on page load
+        populateSelectOptions();
+
+        // Event listener for generating the image
+        document.getElementById('generate-btn').addEventListener('click', () => {
+            const variation = {};
+
+            // Collect values from the select inputs
+            layerKeys.forEach(layer => {
+                const selectedValue = document.getElementById(layer.toLowerCase()).value;
+                variation[layer] = selectedValue.includes('-') ? selectedValue.split('-')[1] : selectedValue;
+            });
+
+            // Call the layerImages function to generate the layered image
+            layerImages(variation).then(imageUrl => {
+                const canvas = document.getElementById('imageCanvas');
+                const ctx = canvas.getContext('2d');
+
+                const img = new Image();
+                img.src = imageUrl;
+                img.onload = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                };
+            });
+        });
+
+function layerImages(variation) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const overlayImages = {
+                    "Witch-A-Sketch": "0e26dd6da75ffbc51228d8c19f7d45e5c3099de51b7456c92cd7310d9d585c51i0",
+                    "Witch-Paint": "d46b1cffb9e3d035a384967b4aa773121fe6688569d765dd6adc09fe111f340di0",
+                    "Witch-Paint Starry Night": "d46b1cffb9e3d035a384967b4aa773121fe6688569d765dd6adc09fe111f340di0",
+                    "Witchintosh PS1": "91eff38b9bc7f4eaf1eb39dd8cf47d414d29498f944f8fd4aeeb44e5ceafa9e4i0",
+                };
+
+                const specialLayering = {
+                    "Pizza Apron": "Robe",
+                    "Maccers Apron": "Robe",
+                    "Coffee Apron": "Robe",                    
+                    "Spice Bag": "Robe",
+                    "Cigarette Holder": "Top",
+                    "Antenna Headband": "Top",
+                    "Laser Eyes": "Top",
+                    "Cracked Glass": "Background",
+                    "Glow Strong": "Background",
+                    "Point Glow": "Background",
+                    "Bent Glow": "Background",
+                    "Lighning": "Background",
+                };
+
+                const overlayUrl = overlayImages[variation['Background']];
+
+                const imageKeys = [
+                    "Background",
+                    "Robe",
+                    "Skin",
+                    "Face",
+                    "Hair",
+                    "Hat",
+                    "Wand"
+                ];
+
+                const imageUrls = imageKeys
+                    .map(key => {
+                        const trait = variation[key];
+                        if (trait === null || trait === 'None' || trait === undefined) {
+                            return null;
+                        }
+                        const url = imageJson[key] && imageJson[key][trait];
+                        if (!url) {
+                            console.warn(`Missing image for ${key}: ${trait}`);
+                            return null;
+                        }
+                        return createImageUrl(url);
+                    }).filter(url => url !== null); 
+
+
+                
+                const backgroundIndex = imageKeys.indexOf("Background");
+
+                const moonType = variation["Moon"];
+                if (moonType && moonJson[moonType] && moonJson[moonType]["Waning Gibbous"]) {
+                    const moonUrl = createImageUrl(moonJson[moonType]["Waning Gibbous"]);
+                    imageUrls.splice(backgroundIndex + 1, 0, moonUrl);
+                }
+
+                const idNo = variation["Id"];
+                const robeTrait = variation["Robe"];
+                const faceTrait = variation["Face"];
+                const hatTrait = variation["Hat"];
+                const bgTrait = variation["Background"];
+
+                if ((bgTrait && (bgTrait.includes("Cosmos") || bgTrait.includes("Matrix"))) && 
+                    (hatTrait && (hatTrait.includes("Bent") || hatTrait.includes("Stars")))) {
+                    const bentGlowUrl = createImageUrl(imageJson['Special']['Bent Glow']);
+                    imageUrls.splice(backgroundIndex + 1, 0, bentGlowUrl);
+                }
+
+                if ((bgTrait && (bgTrait.includes("Cosmos") || bgTrait.includes("Matrix"))) && 
+                    (hatTrait && hatTrait.includes("Hatband"))) {
+                    const pointGlowUrl = createImageUrl(imageJson['Special']['Point Glow']);
+                    imageUrls.splice(backgroundIndex + 1, 0, pointGlowUrl);
+                }
+
+                if (idNo > 70 && (robeTrait && (robeTrait.includes("Outline") || robeTrait.includes("Ghost")))) {
+                    const glowStrongUrl = createImageUrl(imageJson['Special']['Glow Strong']);
+                    imageUrls.splice(backgroundIndex + 1, 0, glowStrongUrl); 
+                }
+
+                if (faceTrait && faceTrait.includes("Alien")) {
+                    const antennaHats = ["Hatband", "Snake", "Leopard", "LV Brown", "Ord Stripes", "Spots", "Binbag", "Zebra", "Lizard", "Raw Steak", "Nacho", "Beige", "Tiger"];
+                    if (hatTrait && antennaHats.some(hat => hatTrait.includes(hat))) {
+                        const antennaUrl = createImageUrl(imageJson['Special']['Antenna Hatband']);
+                        const hatIndex = imageKeys.indexOf("Hat");
+                        if (hatIndex > -1) {
+                            imageUrls.splice(hatIndex + 3, 0, antennaUrl);
+                        }
+                    }
+                }
+
+                const specialTrait = variation['Special'];
+                if (specialTrait && imageJson['Special'] && specialLayering[specialTrait]) {
+                    const specialUrl = createImageUrl(imageJson['Special'][specialTrait]);
+                    if (specialLayering[specialTrait] === "Top") {
+                        imageUrls.push(specialUrl); 
+                    } else if (specialLayering[specialTrait] === "Background") {
+                        imageUrls.unshift(specialUrl); 
+                    } else if (specialLayering[specialTrait] === "Robe") {
+                        const robeIndex = imageKeys.indexOf("Robe");
+                        if (robeIndex > -1) {
+                            imageUrls.splice(robeIndex + 1, 0, specialUrl);
+                        }
+                    }
+                }
+
+                if (specialTrait === "Sparkle") {
+                    const sparkleRobeUrl = createImageUrl(imageJson['Special']['Sparkle Robe Overlay']);
+                    const sparkleHatUrl = createImageUrl(imageJson['Special']['Sparkle Hat Overlay']);
+                    
+                    const robeIndex = imageKeys.indexOf("Robe");
+                    if (robeIndex > -1) {
+                        imageUrls.splice(robeIndex + 1, 0, sparkleRobeUrl);
+                    }
+                    
+                    imageUrls.push(sparkleHatUrl);
+                }
+
+                if (overlayUrl) {
+                    imageUrls.push(createImageUrl(overlayUrl));
+                }
+
+                if (imageUrls.length === 0) {
+                    canvas.width = 150;
+                    canvas.height = 150;
+                    ctx.fillStyle = 'gray';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL());
+                    return;
+                }
+
+                let loadedImages = 0;
+                let imgElements = [];
+
+                imageUrls.forEach((url, index) => {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.src = 'https://ord-mirror.magiceden.dev'+ url;
+                    img.onload = () => {
+                        imgElements[index] = img;
+                        loadedImages++;
+                        if (loadedImages === imageUrls.length) {
+                            canvas.width = imgElements[0].width;
+                            canvas.height = imgElements[0].height;
+                            imgElements.forEach(image => {
+                                ctx.drawImage(image, 0, 0);
+                            });
+                            try {
+                                resolve(canvas.toDataURL());
+                            } catch (e) {
+                                console.error('Error generating image data URL:', e);
+                                canvas.width = 150;
+                                canvas.height = 150;
+                                ctx.fillStyle = 'gray'; // Placeholder color
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                                resolve(canvas.toDataURL());
+                            }
+                        }
+                    };
+                    img.onerror = () => {
+                        console.error(`Error loading image from URL: ${url}`);
+                        loadedImages++;
+                        if (loadedImages === imageUrls.length) {
+                            canvas.width = imgElements[0]?.width || 150;
+                            canvas.height = imgElements[0]?.height || 150;
+                            imgElements.forEach(image => {
+                                if (image) {
+                                    ctx.drawImage(image, 0, 0);
+                                }
+                            });
+                            try {
+                                resolve(canvas.toDataURL());
+                            } catch (e) {
+                                console.error('Error generating image data URL:', e);
+                                canvas.width = 150;
+                                canvas.height = 150;
+                                ctx.fillStyle = 'gray';
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                                resolve(canvas.toDataURL());
+                            }
+                        }
+                    };
+                });
+            });
+        }
+
+function createImageUrl(imageName) {
+    return `${baseUrl}${imageName}`;
+}
+
+const baseUrl = '/content/';
+
+</script>
+</body>
+</html>
