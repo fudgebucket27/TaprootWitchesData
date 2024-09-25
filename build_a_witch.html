@@ -620,17 +620,18 @@ const moonJson = {
 
 const layerKeys = ['Background', 'Robe', 'Skin', 'Face', 'Hair', 'Hat', 'Wand', 'Moon'];
 
-      // Dynamically populate the select options
-      function populateSelectOptions() {
+    // Dynamically populate the select options
+    function populateSelectOptions() {
             layerKeys.forEach(layer => {
                 const select = document.getElementById(layer.toLowerCase());
-                let options = '';
+                let options = '<option value="">Select an option</option>';
 
                 if (layer === 'Moon') {
                     // Special case for moonJson
                     Object.keys(moonJson).forEach(moonType => {
                         Object.keys(moonJson[moonType]).forEach(moonPhase => {
-                            options += `<option value="${moonType}-${moonPhase}">${moonType} - ${moonPhase}</option>`;
+                            const optionValue = `${moonType}_${moonPhase}`;
+                            options += `<option value="${optionValue}">${moonType} - ${moonPhase}</option>`;
                         });
                     });
                 } else if (imageJson[layer]) {
@@ -643,17 +644,26 @@ const layerKeys = ['Background', 'Robe', 'Skin', 'Face', 'Hair', 'Hat', 'Wand', 
             });
         }
 
-
+        // Call the populate function on page load
         populateSelectOptions();
 
+        // Event listener for generating the image
         document.getElementById('generate-btn').addEventListener('click', () => {
             const variation = {};
 
+            // Collect values from the select inputs
             layerKeys.forEach(layer => {
                 const selectedValue = document.getElementById(layer.toLowerCase()).value;
-                variation[layer] = selectedValue.includes('-') ? selectedValue.split('-')[1] : selectedValue;
+                if (layer === 'Moon') {
+                    // Special handling for Moon
+                    const [moonType, moonPhase] = selectedValue.split('_');
+                    variation[layer] = moonPhase;
+                } else {
+                    variation[layer] = selectedValue;
+                }
             });
 
+            // Call the layerImages function to generate the layered image
             layerImages(variation).then(imageUrl => {
                 const canvas = document.getElementById('imageCanvas');
                 const ctx = canvas.getContext('2d');
@@ -666,6 +676,7 @@ const layerKeys = ['Background', 'Robe', 'Skin', 'Face', 'Hair', 'Hat', 'Wand', 
                 };
             });
         });
+
 
 function layerImages(variation) {
             return new Promise((resolve) => {
