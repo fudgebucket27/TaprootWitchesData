@@ -5,7 +5,8 @@ Overal rarity score = The sum of all trait rarity scores
 This guide uses Olympic Ranking:
 eg: If there are two Rank 1 then the next rank will be Rank 3.
 
-See: https://hackernoon.com/how-to-calculate-the-rarity-of-an-nft
+See: https://raritytools.medium.com/ranking-rarity-understanding-rarity-calculation-methods-86ceaeb9b98c  and https://hackernoon.com/how-to-calculate-the-rarity-of-an-nft
+
 {
   "id": 48,
    "rank": 1,
