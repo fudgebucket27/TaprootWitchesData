@@ -933,8 +933,9 @@ async function displayJsonOnPageWithRarity(variationJson) {
 		
 		for (const traitType in traits) {
 			const trait = traits[traitType];
-			jsonString += `    "${traitType}": { "value": "${trait.value}", "occurrence": ${trait.occurrence}, "rarityScore": ${trait.rarityScore}, "percent": "${trait.percentage}%" },\n`;
+			jsonString += `    "${traitType}": { "value": "${trait.value}", "occurrence": ${trait.occurrence}, "percent": "${trait.percentage}%", "rarityScore": ${trait.rarityScore} },\n`;
 		}
+
 
 		jsonString = jsonString.slice(0, -2);  // Remove last comma and newline
 		jsonString += `\n  }\n}`;
