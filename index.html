@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taproot Witches Traits</title>
+    <title>Taproot Witches</title>
 </head>
 <body>
-    <h1>Taproot Witches Traits</h1>
+    <h1>Taproot Witches</h1>
 	<pre id="jsonDisplay"></pre>
 <script>
 const imageJson = {
@@ -856,13 +856,16 @@ function calculateRarityScores(traitOccurrences, totalItems) {
         rarityScores[traitType] = {};
         const traitValues = traitOccurrences[traitType];
 
-        // Calculate rarity score for each trait value based on the formula
+        // Calculate rarity score and percentage for each trait value based on the formula
         for (const traitValue in traitValues) {
             const occurrenceCount = traitValues[traitValue];
-            rarityScores[traitType][traitValue] = 1 / (occurrenceCount / totalItems);
+            const percentage = (occurrenceCount / totalItems) * 100; // Calculate percentage
+            rarityScores[traitType][traitValue] = {
+                rarityScore: 1 / (occurrenceCount / totalItems), // Inverse of occurrence percentage
+                percentage: percentage // Percentage of occurrence
+            };
         }
     }
-
     return rarityScores;
 }
 
@@ -877,13 +880,14 @@ async function addRarityScoresToJson(variationJson) {
 
         for (const traitType in variation.traits) {
             const traitValue = variation.traits[traitType];
-            const rarityScore = rarityScores[traitType][traitValue] || 0;
+            const { rarityScore, percentage } = rarityScores[traitType][traitValue] || { rarityScore: 0, percentage: 0 };
             overallRarityScore += rarityScore;
 
             updatedTraits[traitType] = {
                 value: traitValue,
-                rarityScore: rarityScore,  // Rounded to 4 decimals for clarity
-                occurrence: traitOccurrences[traitType][traitValue]
+                rarityScore: rarityScore.toFixed(4),  // Rounded to 4 decimals for clarity
+                occurrence: traitOccurrences[traitType][traitValue],
+                percentage: percentage.toFixed(2) // Rounded to 2 decimals
             };
         }
 
@@ -892,6 +896,7 @@ async function addRarityScoresToJson(variationJson) {
 
     return updatedJson;
 }
+
 
 function rankWitchesByRarity(updatedJson) {
     // Sort witches by their overall rarity score in descending order (higher score = rarer)
@@ -914,27 +919,30 @@ function rankWitchesByRarity(updatedJson) {
 async function displayJsonOnPageWithRarity(variationJson) {
     const updatedJson = await addRarityScoresToJson(variationJson);
     const rankedJson = rankWitchesByRarity(updatedJson);
+	
+	console.log(rankedJson);
 
     const containerDiv = document.getElementById('jsonDisplay');
     containerDiv.innerHTML = '';
 
-    rankedJson.forEach(witch => {
-        const { id, traits, overallRarityScore, rank } = witch;
-        const witchDiv = document.createElement('div');
+	rankedJson.forEach(witch => {
+		const { id, originalId, traits, overallRarityScore, rank } = witch;
+		const witchDiv = document.createElement('div');
 
-        let jsonString = `{\n  "id": ${id},\n  "rank": ${rank},\n  "overallRarityScore": ${overallRarityScore.toFixed(2)},\n  "traits": {\n`;
-        
-        for (const traitType in traits) {
-            const trait = traits[traitType];
-            jsonString += `    "${traitType}": { "value": "${trait.value}", "occurrence": ${trait.occurrence}, "rarityScore": ${trait.rarityScore.toFixed(2)} },\n`;
-        }
+		let jsonString = `{\n  "id": ${id},\n   "rank": ${rank},\n   "overallRarityScore": ${overallRarityScore.toFixed(2)},\n   "traits": {\n`;
+		
+		for (const traitType in traits) {
+			const trait = traits[traitType];
+			jsonString += `    "${traitType}": { "value": "${trait.value}", "occurrence": ${trait.occurrence}, "rarityScore": ${trait.rarityScore}, "percent": "${trait.percentage}%" },\n`;
+		}
 
-        jsonString = jsonString.slice(0, -2);  // Remove last comma and newline
-        jsonString += `\n  }\n}`;
+		jsonString = jsonString.slice(0, -2);  // Remove last comma and newline
+		jsonString += `\n  }\n}`;
 
-        witchDiv.innerHTML = `<pre>${jsonString}</pre>`;
-        containerDiv.appendChild(witchDiv);
-    });
+		witchDiv.innerHTML = `<pre>${jsonString}</pre>`;
+		containerDiv.appendChild(witchDiv);
+	});
+
 }
 
 
