@@ -49,6 +49,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="special">Special:</label>
+                    <select id="special" class="form-control"></select>
+                </div>
+
+                <div class="form-group">
                     <label for="moon">Moon:</label>
                     <select id="moon" class="form-control"></select>
                 </div>
@@ -621,7 +626,7 @@ const moonJson = {
 }
 };
 
-const layerKeys = ['Background', 'Robe', 'Skin', 'Face', 'Hair', 'Hat', 'Wand', 'Moon'];
+const layerKeys = ['Background', 'Robe', 'Skin', 'Face', 'Hair', 'Hat', 'Wand', 'Moon', 'Special'];
 
     // Dynamically populate the select options
     function populateSelectOptions() {
